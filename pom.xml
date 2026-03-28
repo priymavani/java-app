@@ -8,6 +8,11 @@
   <name>java-app Maven Webapp</name>
   <url>http://maven.apache.org</url>
 
+  <properties>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -18,15 +23,13 @@
 
     <dependency> 
       <groupId>mysql</groupId>
-      <artifactId> mysql-connector-java</artifactId>
-      <version> 8.0.33</version>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.33</version>
     </dependency>
-    
   </dependencies>
 
-
   <build>
-    <finalName>java-app</finalName>
+    <finalName>ROOT</finalName>
   </build>
   
 </project>
