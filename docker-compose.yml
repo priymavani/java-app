@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  proxy:
+    image: nginx:alpine
+    container_name: nginx_proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+    networks:
+      - jsp_network
+    restart: always
+
+  app:
+    build: .
+    container_name: java_app
+    environment:
+      - DB_URL=jdbc:mysql://db:3306/testdb?allowPublicKeyRetrieval=true&useSSL=false
+      - DB_USER=root
+      - DB_PASS=test123
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - jsp_network
+    restart: always
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: test123
+      MYSQL_DATABASE: testdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - jsp_network
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ptest123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+networks:
+  jsp_network:
+    driver: bridge
+
+volumes:
+  db_data:
