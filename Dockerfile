@@ -10,7 +10,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # STAGE 2: Run the application on Tomcat
-FROM tomcat:9.0-jdk11-openjdk
+FROM tomcat:9.0-jdk17-corretto
 
 # Clean out default Tomcat apps to prevent conflicts
 RUN rm -rf /usr/local/tomcat/webapps/*
